@@ -21,37 +21,38 @@ color get_lighting( double *normal, double *view, color alight, double light[2][
   
 }
 
-color calculate_ambient(color alight, double *areflect ) {
+color calculate_reflections(double light[3], double *reflect, double dot_prod){
   color a;
-  a.red = alight.red * areflect[RED];
-  a.green = alight.green * areflect[GREEN];
-  a.blue = alight.blue * areflect[BLUE];
+  a.red = light[RED] * reflect[RED] * dot_prod;
+  a.green = light[GREEN] * reflect[GREEN] * dot_prod;
+  a.blue = light[BLUE] * reflect[BLUE] * dot_prod;
   limit_color(&a);
+  return a;
+}
+color calculate_ambient(color alight, double *areflect ) {
+  double light[3] = {alight.red, alight.green, alight.blue};
+  color a = calculate_reflections(light, areflect, 1);
   return a;
 }
 
 color calculate_diffuse(double light[2][3], double *dreflect, double *normal ) {
-  color d;
   double cos_theta = dot_product(light[LOCATION], normal);
-  d.red = light[COLOR][RED] * dreflect[RED] * cos_theta;
-  d.green = light[COLOR][GREEN] * dreflect[GREEN] * cos_theta;
-  d.blue = light[COLOR][BLUE] * dreflect[BLUE] * cos_theta;
-  limit_color(&d);
+  color d = calculate_reflections(light[COLOR], dreflect, cos_theta);
   return d;
 }
 
+double calculate_cos_alpha(double light[3], double *view, double *normal, int specular_exp){
+  double reflect[3] = {2 * dot_product(normal, light) * normal[RED] - light[RED],
+		   2 * dot_product(normal, light) * normal[GREEN] - light[GREEN],
+		       2 * dot_product(normal, light) * normal[BLUE] - light[BLUE]};
+  return pow(dot_product(reflect, view), specular_exp);
+}
+
 color calculate_specular(double light[2][3], double *sreflect, double *view, double *normal ) {
-  color s;
-  s.red = 0, s.blue = 0, s.green = 0;
+  color s = {0, 0, 0};
   if (dot_product(normal, light[LOCATION]) > 0){
-    double l[3] = {2 * dot_product(normal, light[LOCATION]) * normal[RED] - light[LOCATION][RED],
-		   2 * dot_product(normal, light[LOCATION]) * normal[GREEN] - light[LOCATION][GREEN],
-		   2 * dot_product(normal, light[LOCATION]) * normal[BLUE] - light[LOCATION][BLUE]};
-    double cos_alpha = pow(dot_product(l, view), 4);
-    s.red = light[COLOR][RED] * sreflect[RED] * cos_alpha;
-    s.green = light[COLOR][GREEN] * sreflect[GREEN] * cos_alpha;
-    s.blue = light[COLOR][BLUE] * sreflect[BLUE] * cos_alpha;
-    limit_color(&s);
+    double cos_alpha = calculate_cos_alpha(light[LOCATION], view, normal, 4);
+    s = calculate_reflections(light[COLOR], sreflect, cos_alpha);
   }
   return s;
 }
@@ -69,9 +70,7 @@ void limit_color( color * c ) {
 //normalize vetor, should modify the parameter
 void normalize( double *vector ) {
   double magnitude = sqrt(pow(vector[0], 2) + pow(vector[1], 2) + pow(vector[2], 2));
-  vector[0] /= magnitude;
-  vector[1] /= magnitude;
-  vector[2] /= magnitude;
+  vector[0] /= magnitude, vector[1] /= magnitude, vector[2] /= magnitude;
 }
 
 //Return the dot porduct of a . b
