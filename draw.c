@@ -33,9 +33,9 @@ void scanline_convert( struct matrix *points, int i, screen s, zbuffer zb, color
   y1 = points->m[1][i+1];
   y2 = points->m[1][i+2];
 
-  c.red = (23 * (i/3))%255;
-  c.green = (109 * (i/3))%255;
-  c.blue = (c.blue+(227 * (i/3)))%255;
+  //c.red = (23 * (i/3))%255;
+  //c.green = (109 * (i/3))%255;
+  //c.blue = (c.blue+(227 * (i/3)))%255;
 
   //find bot, mid, top
   if ( y0 <= y1 && y0 <= y2) {
@@ -161,11 +161,9 @@ void draw_polygons(struct matrix *polygons, screen s, zbuffer zb,
   for (point=0; point < polygons->lastcol-2; point+=3) {
 
     normal = calculate_normal(polygons, point);
-
     if ( dot_product(normal, view) > 0 ) {
-
+      
       color c = get_lighting(normal, view, ambient, light, areflect, dreflect, sreflect);
-
       scanline_convert(polygons, point, s, zb, c);
 
       draw_line( polygons->m[0][point],

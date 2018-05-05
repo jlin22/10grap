@@ -87,7 +87,6 @@ void parse_file ( char * filename,
   clear_screen(s);
   clear_zbuffer(zb);
   struct stack * csystems = new_stack();
-
   color c;
   c.red = 0;
   c.green = 0;
@@ -113,7 +112,7 @@ void parse_file ( char * filename,
     int step = 100;
     int step_3d = 10;
 
-    if ( strncmp(line, "push", strlen(line)) == 0 ) {
+   if ( strncmp(line, "push", strlen(line)) == 0 ) {
       //printf("PUSH\b");
       push(csystems);
     }//end of push
