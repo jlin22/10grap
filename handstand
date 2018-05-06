@@ -1,0 +1,150 @@
+#top bar
+push
+move
+25 100 40
+box
+0 0 0 450 10 10
+move
+0 0 -90
+box
+0 0 0 450 10 10
+pop
+#bottom bar
+push
+move
+100 90 40
+box
+0 0 0 10 90 10
+move
+0 0 -90
+box
+0 0 0 10 90 10
+move
+300 0 0
+box
+0 0 0 10 90 10
+move
+0 0 90
+box
+0 0 0 10 90 10
+pop
+#forearms
+push
+move
+250 130 40
+scale
+0.2 0.8 0.13
+sphere
+0 0 0 37.5
+move
+0 0 -90
+sphere
+0 0 0 37.5
+pop
+#arms
+push
+move
+250 185 40
+scale
+0.3 0.8 0.13
+sphere
+0 0 0 37.5
+move
+0 0 -90
+sphere
+0 0 0 37.5
+pop
+#hands
+push
+move
+250 95 45
+sphere
+0 0 0 7.5
+move
+0 0 -90
+sphere
+0 0 0 7.5
+pop
+#head
+push
+move
+255 190 0
+scale
+1.15 1.15 1
+sphere
+0 0 0 15
+pop
+#body
+push
+move
+250 250 0
+scale
+0.3 0.75 0.5
+sphere
+0 0 0 75
+pop
+#quads(low is 300)
+push
+move
+245 340 45
+rotate
+z 5
+scale
+0.3 0.8 0.3
+sphere
+0 0 0 50
+move
+0 0 -90
+sphere
+0 0 0 50
+pop
+#butt
+push
+move
+250 315 25
+rotate
+z -5
+scale
+0.6 0.8 1
+sphere
+0 0 0 25
+move
+0 0 -75
+sphere
+0 0 0 25
+pop
+#calves
+push
+move
+240 395 45
+rotate
+z 3.5
+scale
+0.2 0.8 0.25	
+sphere
+0 0 0 50
+move
+0 0 -90
+sphere
+0 0 0 50
+pop
+#toes
+push
+move
+235 445 45
+rotate
+z 10
+scale
+0.35 1 0.5
+sphere
+0 0 0 15
+move
+0 0 -90
+sphere
+0 0 0 15
+pop
+save
+handstand.jpg
+display
+
+
